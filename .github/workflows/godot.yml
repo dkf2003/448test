@@ -8,6 +8,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Preload project resources (generate .import files)
+        run: |
+          godot --headless --editor --quit --path firstgame
       - name: Docker test
         uses: ceceppa/godot-gut-ci@main
         with:
