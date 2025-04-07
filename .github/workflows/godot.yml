@@ -8,9 +8,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Set GODOT_VERSION
+        run: echo "GODOT_VERSION=4.4.1" >> $GITHUB_ENV
+
+      - name: Install Godot
+        id: install_godot
+        uses: pontoco/setup-godot@v1
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          use-dotnet: false
+          headless: true
+
       - name: Preload project resources (generate .import files)
         run: |
-          godot --headless --editor --quit --path firstgame
+          ${{ steps.install_godot.outputs.godot_executable }} --headless --editor --quit --path firstgame
       - name: Docker test
         uses: ceceppa/godot-gut-ci@main
         with:
