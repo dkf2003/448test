@@ -1,5 +1,4 @@
 name: "godot gut test"
-
 on: push
 
 jobs:
@@ -9,23 +8,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Set GODOT_VERSION
-        run: echo "GODOT_VERSION=4.4.1" >> $GITHUB_ENV
-
-      - name: Install Godot ${{ env.GODOT_VERSION }}
-        uses: pontoco/setup-godot@v1
-        with:
-          version: ${{ env.GODOT_VERSION }}
-          use-dotnet: false
-          headless: true
-
-      - name: Preload project resources (generate .import files)
-        run: |
-          godot --headless --editor --quit --path .
-
-      - name: Run GUT tests
+      - name: Docker test
         uses: ceceppa/godot-gut-ci@main
         with:
-          godot_version: ${{ env.GODOT_VERSION }}
+          godot_version: 4.4.1 # uses godot 4.4.1
           gut_params: -gdir=res://tests -gprefix=test_
